@@ -6,12 +6,12 @@ class BlockChain
   validate :chain_consistency_validation
   attr_reader :chain, :pending_transactions
 
-  def initialize
-    @chain = [create_genesis_block]
+  def initialize(initial_transactions)
+    @chain = [create_genesis_block(initial_transactions)]
   end
 
   def create_genesis_block
-    Block.new(timestamp: Time.now.to_i, transactions: [], previous_hash: "0")
+    Block.new(timestamp: Time.now.to_i, transactions: [initial_transactions], previous_hash: "0")
   end
 
   def latest_block 
@@ -62,8 +62,8 @@ class BlockChain
     state = {}
     @chain.each do |block|
       block.transactions.each do |transaction|
-        balance += transaction.amount if transaction.to_address == address
-        balance -= transaction.amount if transaction.from_address == address
+        state[transaction.from_address] -= transaction.amount if transaction.from_address.present?
+        state[transaction.to_address] += transaction.amount 
       end
     end
     balance

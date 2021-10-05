@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   # root 'database#index'
 
   # get 'app', to: 'table#index'
-  root 'xclusive_ledger#index'
+  get '/xclusive_ledger', to: 'xclusive_ledger#index'
+  root 'table#index'
 end

@@ -5,7 +5,6 @@
       </v-card-title>
       <v-form
       ref="form"
-      v-model="valid"
       lazy-validation
       class="ml-4 mr-4"
       >
@@ -51,6 +50,7 @@
           'Item 3',
           'Item 4',
         ],
+        amount: null,
         amountRules: [
           v => /^\d+$/.test(v) || "Enter valid amount"
         ],

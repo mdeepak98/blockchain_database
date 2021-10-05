@@ -6,8 +6,7 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="desserts"
-        :search="search"
+        :items="ledgerData"
       ></v-data-table>
     </v-card>
     <newtransaction />
@@ -18,6 +17,8 @@
 <script>
  import NewTransaction from './newTransaction.vue';
  import Transaction from './transaction.vue';
+ import axios from 'axios';
+
   export default {
     data () {
       return {
@@ -28,12 +29,13 @@
           //   filterable: false,
           //   value: 'name',
           // },
-          { text: 'User', value: 'name' },
-          { text: 'Xclusive Points', value: 'calories' },
+          { text: 'User', value: 'username' },
+          { text: 'Xclusive Points', value: 'xclusive_points' },
           // { text: 'Carbs (g)', value: 'carbs' },
           // { text: 'Protein (g)', value: 'protein' },
           // { text: 'Iron (%)', value: 'iron' },
         ],
+        ledgerData: [],
         desserts: [
           {
             name: 'Frozen Yogurt',
@@ -199,6 +201,12 @@
         ],
       }
     },
-    components: { newtransaction: NewTransaction, transaction: Transaction }
+    components: { newtransaction: NewTransaction, transaction: Transaction },
+    mounted () {
+    axios
+      .get('http://localhost:3000/xclusive_ledger')
+      .then(response => {
+        this.ledgerData = response.data})
+    }
   }
 </script>

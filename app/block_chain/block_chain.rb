@@ -10,7 +10,7 @@ class BlockChain
     @chain = [create_genesis_block(initial_transactions)]
   end
 
-  def create_genesis_block
+  def create_genesis_block(initial_transactions)
     Block.new(timestamp: Time.now.to_i, transactions: [initial_transactions], previous_hash: "0")
   end
 
@@ -19,7 +19,7 @@ class BlockChain
   end
 
   def add_block(transactions)
-    new_block = Block.new(timestamp: Time.now.to_i, transactions: transactions, previous_hash: @chain.last.hash)
+    new_block = Block.new(timestamp: Time.now.to_i, transactions: [transactions], previous_hash: @chain.last.hash)
     new_block.mine(MINING_DIFFICULTY)
     @chain << new_block
   end
@@ -62,11 +62,11 @@ class BlockChain
     state = {}
     @chain.each do |block|
       block.transactions.each do |transaction|
-        state[transaction.from_address] -= transaction.amount if transaction.from_address.present?
-        state[transaction.to_address] += transaction.amount 
+        state[transaction.from_address] = (state[transaction.from_address] || 0) - transaction.amount if transaction.from_address.present?
+        state[transaction.to_address] = (state[transaction.to_address] || 0) + transaction.amount 
       end
     end
-    balance
+    state
   end
 
   def present?

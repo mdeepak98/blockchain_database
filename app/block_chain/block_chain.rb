@@ -8,6 +8,7 @@ class BlockChain
 
   def initialize(initial_transactions)
     @chain = [create_genesis_block(initial_transactions)]
+    @pending_transactions = []
   end
 
   def create_genesis_block(initial_transactions)
@@ -19,7 +20,7 @@ class BlockChain
   end
 
   def add_block(transactions)
-    new_block = Block.new(timestamp: Time.now.to_i, transactions: [transactions], previous_hash: @chain.last.hash)
+    new_block = Block.new(timestamp: Time.now.to_i, transactions: transactions, previous_hash: @chain.last.hash)
     new_block.mine(MINING_DIFFICULTY)
     @chain << new_block
   end
@@ -34,12 +35,16 @@ class BlockChain
     end
   end
 
-  def mine_pending_transactions(miner_address)
+  def add_pending_transaction(transaction)
+    @pending_transactions.push(transaction)
+  end
+
+  def mine_pending_transactions(miner_address="")
     # Miners has to pick transactions whose total block size doesn't exceeds 1 MB
     
     add_block(@pending_transactions)
     puts "========== Pending transactions mined =========="
-    @pending_transactions = [ Transaction.new(from_address: nil,to_address: miner_address, amount: MINING_REWARD)]
+    # @pending_transactions = [ Transaction.new(from_address: nil,to_address: miner_address, amount: MINING_REWARD)]
   end
 
   def create_transaction(transaction)
@@ -71,6 +76,10 @@ class BlockChain
 
   def present?
     @chain.present? && @chain.length > 1
+  end
+
+  def history 
+    @chain.map{|block| block.transactions.map{|txn| txn.to_formatted_json} }.flatten
   end
 
   private

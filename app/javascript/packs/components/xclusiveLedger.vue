@@ -1,212 +1,68 @@
 <template>
+  <v-col>
+  <v-row>
   <v-card class="d-flex justify-space-around" elevation="0" width="100%">
-    <v-card v-for="n in 1" :key="n" width="500">
+    <v-card v-for="n in 1" :key="n" width="400" style="height:max-content;border: 1px solid purple">
       <v-card-title class="font-weight-bold purple white--text">
         Caratlane Xclusice Points Ledger
       </v-card-title>
-      <v-data-table
+      <v-data-table v-if="!isLoading"
         :headers="headers"
         :items="ledgerData"
+        class="pl-8 pr-8"
       ></v-data-table>
+      <v-card class="d-flex justify-space-around align-center" height="100" v-if="isLoading">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </v-card>
     </v-card>
-    <newtransaction />
+    <newtransaction @mine="mine"/>
     <transaction />
   </v-card>
+  </v-row>
+  <v-col>
+    <block-chain/>
+  </v-col>
+  </v-col>
 </template>
 
 <script>
  import NewTransaction from './newTransaction.vue';
  import Transaction from './transaction.vue';
+ import BlockChain from './blockChain.vue';
  import axios from 'axios';
 
   export default {
     data () {
       return {
         headers: [
-          // {
-          //   text: 'Dessert (100g serving)',
-          //   align: 'start',
-          //   filterable: false,
-          //   value: 'name',
-          // },
-          { text: 'User', value: 'username' },
+          { text: 'Username', value: 'username' },
           { text: 'Xclusive Points', value: 'xclusive_points' },
-          // { text: 'Carbs (g)', value: 'carbs' },
-          // { text: 'Protein (g)', value: 'protein' },
-          // { text: 'Iron (%)', value: 'iron' },
         ],
         ledgerData: [],
-        desserts: [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: '1%',
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: '1%',
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            iron: '7%',
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            iron: '8%',
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            iron: '16%',
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-            iron: '0%',
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-            iron: '2%',
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-            iron: '45%',
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: '22%',
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: '6%',
-          },
-
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: '22%',
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: '6%',
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: '22%',
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: '6%',
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: '22%',
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: '6%',
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: '22%',
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: '6%',
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: '22%',
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: '6%',
-          },
-        ],
       }
     },
-    components: { newtransaction: NewTransaction, transaction: Transaction },
+    components: { newtransaction: NewTransaction, transaction: Transaction, blockChain: BlockChain },
+    computed: {
+      isLoading() { return this.ledgerData.length === 0 }
+    },
     mounted () {
     axios
       .get('http://localhost:3000/xclusive_ledger')
       .then(response => {
         this.ledgerData = response.data})
+    },
+    methods: {
+      mine: function(){
+        console.log("Started mining.........");
+        axios
+        .get('http://localhost:3000/xclusive_ledger/mine')
+        .then(response => {
+          this.ledgerData = response.data
+        })
+      }
     }
   }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-card width="500" height="300">
+  <v-card width="500" height="300" style="border: 1px solid purple">
       <v-card-title class="font-weight-bold purple white--text">
         New transaction
       </v-card-title>
@@ -30,6 +30,7 @@
             color="purple"
             dark
             class="pa-6"
+            @click="postTransaction"
           >
             Add Transaction
           </v-btn>
@@ -40,21 +41,32 @@
 </template>
 
 <script>
+ import axios from 'axios';
   export default {
     data () {
       return {
         select: null,
         items: [
-          'Item 1',
-          'Item 2',
-          'Item 3',
-          'Item 4',
+          'User1',
+          'User2',
+          'User3',
+          'User4',
         ],
         amount: null,
         amountRules: [
           v => /^\d+$/.test(v) || "Enter valid amount"
         ],
-        search: ''
+      }
+    },
+    methods: {
+      postTransaction: function() {
+        let transactionDetails = { to:  this.select, amount: this.amount}
+        axios
+        .post('/xclusive_ledger/add_transaction',transactionDetails)
+        .then(response => { 
+          console.log("Response..............",response); 
+          this.$emit('mine')
+        });
       }
     }
   }

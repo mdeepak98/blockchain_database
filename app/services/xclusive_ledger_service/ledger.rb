@@ -45,7 +45,9 @@ module XclusiveLedgerService
     end
   
     def self.history 
-      XclusiveLedgerBlock.all[1..-1].map{|block| 
+      blocks = XclusiveLedgerBlock.all
+      return [] if blocks.length < 2
+      blocks[1..-1].map{|block| 
         block.transactions.map{|txn| 
           if txn["from_address"] == "System"
             message = "System added #{txn['amount']} points to #{txn['to_address']}"

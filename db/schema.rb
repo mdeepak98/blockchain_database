@@ -12,20 +12,20 @@
 
 ActiveRecord::Schema.define(version: 2021_10_09_173842) do
 
-  create_table "transactions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "transactions", force: :cascade do |t|
     t.string "from_address"
     t.string "to_address"
     t.integer "amount"
     t.integer "status", default: 0
-    t.datetime "created_at", default: "2021-10-13 06:24:31"
+    t.datetime "created_at", default: "2021-10-13 09:18:39"
   end
 
-  create_table "xclusive_ledger_blocks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "xclusive_ledger_blocks", force: :cascade do |t|
     t.string "hash"
     t.string "previous_block_hash"
-    t.integer "nonce", default: 0
+    t.integer "nonce"
     t.json "transactions"
-    t.datetime "created_at", default: "2021-10-13 06:24:31"
+    t.datetime "created_at", default: "2021-10-13 09:18:39"
   end
 
 end

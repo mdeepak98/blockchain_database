@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2021_10_09_173842) do
     t.string "to_address"
     t.integer "amount"
     t.integer "status", default: 0
-    t.datetime "created_at", default: "2021-10-10 08:21:31"
+    t.datetime "created_at", default: "2021-10-13 06:24:31"
   end
 
   create_table "xclusive_ledger_blocks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2021_10_09_173842) do
     t.string "previous_block_hash"
     t.integer "nonce", default: 0
     t.json "transactions"
-    t.datetime "created_at", default: "2021-10-10 08:21:31"
+    t.datetime "created_at", default: "2021-10-13 06:24:31"
   end
 
 end

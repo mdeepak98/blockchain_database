@@ -3,7 +3,7 @@ module XclusiveLedgerService
   class Miner
     
     class << self 
-      include Hashing
+      include XclusiveLedgerService::Hashing
 
       def mine_pending_transactions
         begin
@@ -26,7 +26,8 @@ module XclusiveLedgerService
         while !valid_hash?(block.hash)
           block.nonce = block.nonce + 1
           block.hash = calculate_hash(block)
-          print "#{block.hash}\r"
+          mining_print_message = '==== Mining transactions: ' + block.hash + " ===="
+          print "#{mining_print_message}\r"
         end
       end
   

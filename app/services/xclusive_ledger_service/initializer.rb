@@ -3,10 +3,13 @@ module XclusiveLedgerService
   class Initializer
     
     def self.init
-      return if XclusiveLedgerBlock.count > 0
+      # return if XclusiveLedgerBlock.count > 0
       create_genesis_block()
+      puts "==== Genesis block Created ===="
       add_initial_transactions()
+      puts "==== New Transactions added ===="
       Miner.mine_pending_transactions()
+      puts "==== Pending Transactions mined ===="
     end
     
     def self.create_genesis_block

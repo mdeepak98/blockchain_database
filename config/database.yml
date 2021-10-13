@@ -5,4 +5,4 @@ development:
   database: blockchain
   pool: 5
   username: root
-  password:
+  password: 12345678

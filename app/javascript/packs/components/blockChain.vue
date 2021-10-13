@@ -1,19 +1,22 @@
 <template>
   <div>
-    <h2 class="mb-8 ml-8">BlockChain</h2>
+    <div class="mb-16 mt-16">
+      <h2 style="margin-left:120px">BlockChain</h2>
+    </div>
     <v-card
       elevation="0"
       class="d-flex flex-wrap justify-space-around align-center"
     >
       <v-card
         class="ml-8 mb-8"
+        color="green"
         v-for="(block, index) in blocks"
         :key="index"
         width="320"
         elevation="0"
       >
         <v-expansion-panels>
-          <v-expansion-panel>
+          <v-expansion-panel style="background-color: rgb(236 255 241)">
             <v-expansion-panel-header>
               <v-col>
                 <h3 class="text-center">
@@ -24,46 +27,39 @@
             <v-expansion-panel-content>
               <v-col>
                 <v-row class="align-center">
-                  <v-col cols="3" class="font-weight-bold pr-0">
-                    Hash
-                  </v-col>
-                  <v-col cols="9">
-                    <v-card
-                      outlined
-                      height="35"
-                      class="pt-1"
-                      style="white-space: nowrap;overflow: scroll;font-size: large"
-                    >
-                      {{ block.hash }}
-                    </v-card>
-                  </v-col>
+                  <v-text-field
+                    outlined
+                    dense
+                    readonly
+                    v-model="block.hash"
+                    label="Hash"
+                    required
+                  />
                 </v-row>
                 <v-row class="align-center">
-                  <v-col cols="3" class="font-weight-bold pr-0">
-                    Previous Hash
-                  </v-col>
-                  <v-col cols="9">
-                    <v-card
-                      outlined
-                      height="35"
-                      class="pt-1"
-                      style="white-space: nowrap;overflow: scroll;font-size: large"
-                    >
-                      {{ block.previous_hash }}
-                    </v-card>
-                  </v-col>
+                  <v-text-field
+                    outlined
+                    dense
+                    readonly
+                    v-model="block.previous_block_hash"
+                    label="Previous Block Hash"
+                    required
+                  />
                 </v-row>
                 <v-row class="align-center">
-                  <v-col cols="3" class="font-weight-bold pr-0">
-                    Nonce
-                  </v-col>
-                  <v-col cols="9">
-                    {{ block.nonce }}
-                  </v-col>
+                  <v-text-field
+                    outlined
+                    dense
+                    readonly
+                    v-model="block.nonce"
+                    label="Nonce"
+                    required
+                  />
                 </v-row>
-                <v-divider class="mt-8 mb-8"></v-divider>
-                <h4 class="mb-2">Transactions</h4>
-                <v-simple-table class="ml-8 mr-8">
+                <h4 class="mt-1 mb-2">Transactions</h4>
+                <v-simple-table
+                  style="height:250px;overflow-y:scroll;background-color:rgb(236 255 241)"
+                >
                   <template v-slot:default>
                     <thead>
                       <tr>
@@ -74,15 +70,17 @@
                           To
                         </th>
                         <th class="text-left">
-                          Amount
+                          Points
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td width="100" style="width:100px">User1</td>
-                        <td style="width:100px">User2</td>
-                        <td style="width:100px">2000</td>
+                      <tr v-for="txn in block.transactions" :key="txn">
+                        <td width="100" style="width:100px">
+                          {{ txn.from_address }}
+                        </td>
+                        <td style="width:100px">{{ txn.to_address }}</td>
+                        <td style="width:100px">{{ txn.amount }}</td>
                       </tr>
                     </tbody>
                   </template>

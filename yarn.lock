@@ -890,6 +890,11 @@
   "resolved" "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.2.tgz"
   "version" "1.1.2"
 
+"@mdi/font@^6.2.95":
+  "integrity" "sha512-0RKkhabkFZP3ALwKqrjhdKdhydQpoydIjX6cvjIwLyjADCsE0pG68YkGY+S3qnfdErmhS4m8adwvgrAFXp2AYQ=="
+  "resolved" "https://registry.npmjs.org/@mdi/font/-/font-6.2.95.tgz"
+  "version" "6.2.95"
+
 "@npmcli/fs@^1.0.0":
   "integrity" "sha512-8ltnOpRR/oJbOp8vaGUnipOi3bqkcW+sLHFlyXIr08OGHmVJLB1Hn7QtGXbYcpVtH1gAYZTlmDXtE4YV0+AMMQ=="
   "resolved" "https://registry.npmjs.org/@npmcli/fs/-/fs-1.0.0.tgz"

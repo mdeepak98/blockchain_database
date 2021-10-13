@@ -18,6 +18,6 @@ module BlockchainDatabase
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.autoload_paths += Dir[Rails.root.join('app/block_chain/*.rb')]
+    config.autoload_paths += Dir[Rails.root.join('app/services/**/*.rb')]
   end
 end

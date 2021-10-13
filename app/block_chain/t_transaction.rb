@@ -1,4 +1,4 @@
-class Transaction 
+class TTransaction 
   include ActiveModel::Model
 
   attr_reader :from_address, :to_address, :amount

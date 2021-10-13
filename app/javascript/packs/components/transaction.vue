@@ -1,80 +1,42 @@
 <template>
   <v-card
-    style="max-width: 800px;max-height:350px;border: 1px solid purple;overflow-y:scroll"
+    style="height:550px; width:500px;border: 1px solid purple;overflow:hidden"
   >
-    <v-card-title class="font-weight-bold purple white--text text-center">
-      Customer Transaction history
-    </v-card-title>
+    <v-col style="max-height:450px;overflow-y:scroll">
+      <v-card-title class="font-weight-bold purple white--text text-center">
+        Transactions
+      </v-card-title>
 
-    <v-timeline dense clipped>
-      <v-slide-x-transition group>
-        <v-timeline-item
-          v-for="event in timeline"
-          :key="event.id"
-          class="mb-4"
-          color="pink"
-          small
-        >
-          <v-row justify="space-between">
-            <v-col cols="7" v-text="event.text"></v-col>
-            <v-col class="text-right" cols="5" v-text="event.time"></v-col>
-          </v-row>
+      <v-timeline class="mt-4" light dense clipped>
+        <v-timeline-item class="mb-2 mt-0" hide-dot>
+          <span class="font-weight-bold">TODAY</span>
         </v-timeline-item>
-      </v-slide-x-transition>
 
-      <v-timeline-item class="mb-6" hide-dot>
-        <span>TODAY</span>
-      </v-timeline-item>
-
-      <v-timeline-item
-        class="mb-4"
-        color="grey"
-        icon-color="grey lighten-2"
-        small
-        v-for="txn in transactionHistory"
-        :key="txn.id"
-      >
-        <v-row justify="space-between">
-          <v-col cols="7">
-            {{ txn.message }}
-          </v-col>
-          <v-col class="text-center" cols="5">
-            {{ txn.createdAt }}
-          </v-col>
-        </v-row>
-      </v-timeline-item>
-
-      <v-timeline-item fill-dot class="white--text mb-12" color="orange" large>
-        <template v-slot:icon>
-          <span>JL</span>
-        </template>
-        <newtransaction />
-        <!-- <v-text-field
-          v-model="input"
-          hide-details
-          flat
-          label="Leave a comment..."
-          solo
-          @keydown.enter="comment"
+        <v-timeline-item
+          class="mb-2"
+          color="grey"
+          icon-color="grey"
+          fill-dot
+          small
+          v-for="txn in transactionHistory"
+          :key="txn.id"
         >
-          <template v-slot:append>
-            <v-btn
-              class="mx-0"
-              depressed
-              @click="comment"
-            >
-              Post
-            </v-btn>
-          </template>
-        </v-text-field> -->
-      </v-timeline-item>
-    </v-timeline>
+          <v-col class="mt-1 mb-1">
+            <v-row>{{ txn.message }}</v-row>
+            <v-row class="grey--text">{{ txn.created_at }}</v-row>
+          </v-col>
+        </v-timeline-item>
+      </v-timeline>
+    </v-col>
+    <v-col class="pa-0 pt-0 ma-0" style="height:50px;background-color:#e2e0e0">
+      <newtransaction @mine="mine" />
+    </v-col>
   </v-card>
 </template>
 
 <script>
 import axios from 'axios';
-import NewTransaction from './newTransaction.vue';
+import NewTransactionVertical from './newTransactionVertical.vue';
 export default {
   data: () => ({
     events: [],
@@ -84,28 +46,28 @@ export default {
       {
         id: 1,
         message: 'Caratlane added 1 Crore points to its account',
-        createdAt: '1st Oct 2021',
+        created_at: '1st Oct 2021',
       },
       {
         id: 2,
         message: 'User1 sent 10 Thousand points to User2',
-        createdAt: '2nd Oct 2021',
+        created_at: '2nd Oct 2021',
       },
       {
         id: 3,
         message: 'User2 sent Thousand points to User3',
-        createdAt: '1st Oct 2021',
+        created_at: '1st Oct 2021',
       },
       {
         id: 4,
         message: 'Caratlane added 1 Crore points to its account',
-        createdAt: '1st Oct 2021',
+        created_at: '1st Oct 2021',
       },
     ],
   }),
 
   components: {
-    newtransaction: NewTransaction,
+    newtransaction: NewTransactionVertical,
   },
 
   computed: {
@@ -123,23 +85,11 @@ export default {
   },
 
   methods: {
-    comment() {
-      const time = new Date().toTimeString();
-      this.events.push({
-        id: this.nonce++,
-        text: this.input,
-        time: time.replace(
-          /:\d{2}\sGMT-\d{4}\s\((.*)\)/,
-          (match, contents, offset) => {
-            return ` ${contents
-              .split(' ')
-              .map(v => v.charAt(0))
-              .join('')}`;
-          },
-        ),
+    mine: function() {
+      console.log('Started mining.........');
+      axios.get('http://localhost:3000/xclusive_ledger/mine').then(response => {
+        this.ledgerData = response.data;
       });
-
-      this.input = null;
     },
   },
 };

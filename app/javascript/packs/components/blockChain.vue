@@ -206,7 +206,7 @@ export default {
         .post('/xclusive_ledger/add_transaction', transactionDetails)
         .then(response => {
           console.log('Response..............', response);
-          this.$emit('mine');
+          // this.$emit('mine');
         });
     },
   },

@@ -82,7 +82,7 @@ export default {
           console.log('Response..............', response);
           this.amount = null;
           this.select = null;
-          this.$emit('mine');
+          // this.$emit('mine');
           this.addingTransaction = false;
         });
     },

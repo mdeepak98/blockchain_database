@@ -87,9 +87,9 @@ export default {
   methods: {
     mine: function() {
       console.log('Started mining.........');
-      axios.get('http://localhost:3000/xclusive_ledger/mine').then(response => {
-        this.ledgerData = response.data;
-      });
+      // axios.get('http://localhost:3000/xclusive_ledger/mine').then(response => {
+      //   this.ledgerData = response.data;
+      // });
     },
   },
 };

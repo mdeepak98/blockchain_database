@@ -1,12 +1,17 @@
 <template>
-  <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
+  <v-data-table
+    :headers="headers"
+    :items="desserts"
+    sort-by="calories"
+    class="elevation-1"
+  >
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>My CRUD</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
+          <template v-slot:activator="{on}">
             <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
           </template>
           <v-card>
@@ -18,19 +23,34 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.first_name" label="First Name"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.first_name"
+                      label="First Name"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.last_name" label="Last Name"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.last_name"
+                      label="Last Name"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.email"
+                      label="Email"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.phone" label="Phone"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.phone"
+                      label="Phone"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.address" label="Address"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.address"
+                      label="Address"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -38,14 +58,16 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save(editedItem)">Save</v-btn>
+              <v-btn color="black darken-1" text @click="close">Cancel</v-btn>
+              <v-btn color="black darken-1" text @click="save(editedItem)"
+                >Save</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot:item.action="{ item }">
+    <template v-slot:item.action="{item}">
       <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
       <v-icon small @click="deleteItem(item)">delete</v-icon>
     </template>
@@ -61,56 +83,55 @@ export default {
     dialog: false,
     headers: [
       {
-        text: "First Name",
-        align: "left",
+        text: 'First Name',
+        align: 'left',
         sortable: false,
-        value: "first_name"
+        value: 'first_name',
       },
-      { text: "Last Name", value: "last_name" },
-      { text: "Email", value: "email" },
-      { text: "Phone", value: "phone" },
-      { text: "Address", value: "address" },
-      { text: "Actions", value: "action", sortable: false }
+      {text: 'Last Name', value: 'last_name'},
+      {text: 'Email', value: 'email'},
+      {text: 'Phone', value: 'phone'},
+      {text: 'Address', value: 'address'},
+      {text: 'Actions', value: 'action', sortable: false},
     ],
     desserts: [],
     editedIndex: -1,
     editedItem: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      phone: "",
-      address: ""
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+      address: '',
     },
     defaultItem: {
-      name: "",
-      calories: "",
-      fat: "",
-      carbs: "",
-      protein: ""
-    }
+      name: '',
+      calories: '',
+      fat: '',
+      carbs: '',
+      protein: '',
+    },
   }),
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    }
+      return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
+    },
   },
   watch: {
     dialog(val) {
       val || this.close();
-    }
+    },
   },
   created() {
     this.initialize();
   },
   methods: {
-  
-  close() {
+    close() {
       this.dialog = false;
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       }, 300);
-    }
-  }
+    },
+  },
 };
 </script>

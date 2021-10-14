@@ -15,7 +15,7 @@ class XclusiveLedgerController < ApplicationController
     render json: { message: "Transaction added successfully."}
   end
 
-  def mine_blocks
+  def mine
     # Ledger::XclusiveLedger.block_chain.mine_pending_transactions
     XclusiveLedgerService::Miner.mine_pending_transactions()
     render json: XclusiveLedgerService::Ledger.current_state

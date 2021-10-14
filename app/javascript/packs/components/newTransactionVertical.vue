@@ -14,7 +14,7 @@
             dense
             :rules="amountRules"
             v-model="amount"
-            label="Amount"
+            label="Xclusive Points"
             required
           />
         </v-col>
